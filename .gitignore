@@ -1,0 +1,9 @@
+*~
+*.map
+*.sass-cache
+node_modules
+.cache
+.vscode/
+.env
+_site
+.DS_Store
