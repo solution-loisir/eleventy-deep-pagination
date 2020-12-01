@@ -1,4 +1,4 @@
-const { writeFile } = require('fs').promises;
+const { writeFileSync } = require('fs');
 
 module.exports = function(config) {
     // Sass pre-processing
@@ -25,25 +25,24 @@ module.exports = function(config) {
             }
         });
         [...tagSet].forEach(tag => {
-            writeFile(`./_src/${tag}.njk`, `
-            ---
-            layout: base-layout.njk
-            pagination:
-                data: collections.${tag}
-                size: 4
-                alias: tag
-                addAllPagesToCollections: true
-            eleventyComputed:
-                title: "{{ tag | lower | slug }}"
-            permalink: "tags/{{ pagination.pageNumber }}/index.html"
-            ---
-            {% set posts = collections[tag] %}
+            writeFileSync(`./_src/${tag}.njk`, `
+---
+layout: base-layout.njk
+pagination:
+    data: collections.${tag}
+    size: 4
+    alias: tag
+    addAllPagesToCollections: true
+eleventyComputed:
+    title: "{{ tag | lower | slug }}"
+permalink: "tags/{{ pagination.pageNumber }}/index.html"
+---
+{% set posts = collections[tag] %}
             
-            {% for post in posts %}
-                <h1>{{ post.data.title }}</h1>
-                <a href="{{ post.url }}"</a>
-            {% endfor %}`)
-            .catch(error => console.error(`Tag template error: `, error));
+{% for post in posts %}
+<h1>{{ post.data.title }}</h1>
+<a href="{{ post.url }}">${tag}</a>
+{% endfor %}`);
         });
         return [...tagSet];
     });

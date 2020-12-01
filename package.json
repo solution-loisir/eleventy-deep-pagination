@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx @11ty/eleventy --serve",
     "code": "code && npx @11ty/eleventy --serve",
-    "clean": "if [ -d _site ]; then trash docs; fi && npx @11ty/eleventy --serve",
+    "clean": "if [ -d _site ]; then trash _site; fi && npx @11ty/eleventy --serve",
     "debug": "DEBUG=Eleventy* npx @11ty/eleventy",
     "prod": "npx @11ty/eleventy"
   },
