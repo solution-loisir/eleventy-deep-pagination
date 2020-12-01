@@ -1,0 +1,17 @@
+---
+layout: base-layout.njk
+pagination:
+    data: collections.allTags
+    size: 4
+    alias: tag
+    addAllPagesToCollections: true
+eleventyComputed:
+    title: "Page {{ pagination.pageNumber }}"
+permalink: "/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber }}/{% endif %}index.html"
+---
+{% set posts = collections[tag] %}
+            
+{% for post in posts %}
+    <h1>{{ post.data.title }}</h1>
+    <a href="{{ post.url }}"</a>
+{% endfor %}

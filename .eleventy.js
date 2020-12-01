@@ -35,7 +35,7 @@ module.exports = function(config) {
                 addAllPagesToCollections: true
             eleventyComputed:
                 title: "{{ tag | lower | slug }}"
-            permalink: "tags/{{ tag | lower | slug }}/"
+            permalink: "tags/{{ pagination.pageNumber }}/index.html"
             ---
             {% set posts = collections[tag] %}
             
