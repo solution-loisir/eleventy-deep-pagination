@@ -25,17 +25,17 @@ module.exports = function(config) {
             }
         });
         [...tagSet].forEach(tag => {
-            writeFile(`./_src/${tag}/${tag}.njk`, `
+            writeFile(`./_src/${tag}.njk`, `
             ---
-            layout: base-layout
+            layout: base-layout.njk
             pagination:
                 data: collections.${tag}
-                size: 6
+                size: 4
                 alias: tag
                 addAllPagesToCollections: true
             eleventyComputed:
                 title: "{{ tag | lower | slug }}"
-            permalink: ${tag}/{{ tag | lower | slug }}/
+            permalink: "tags/{{ tag | lower | slug }}/"
             ---
             {% set posts = collections[tag] %}
             
@@ -57,6 +57,6 @@ module.exports = function(config) {
         dataTemplateEngine: 'njk',
         htmlTemplateEngine: 'njk',
         markdownTemplateEngine: 'njk',
-        templateFormats: ['njk', 'html', 'md', '11ty.js']
+        templateFormats: ['njk', 'md']
     }
 }
