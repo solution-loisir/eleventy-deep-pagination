@@ -1,4 +1,4 @@
-const { writeFileSync } = require('fs');
+const lodashChunk = require('lodash.chunk');
 
 module.exports = function(config) {
     // Sass pre-processing
@@ -14,37 +14,33 @@ module.exports = function(config) {
     assets.forEach(asset => config.addPassthroughCopy(asset));
     */
     // Collections
-    config.addCollection('allTags', collection => {
-        const allCollections = collection.getFilteredByGlob('_src/posts/*.md');
+    config.addCollection('pagedTag', collection => {
+        const postsCollection = collection.getFilteredByGlob('_src/posts/*.md');
         let tagSet = new Set();
-        allCollections.forEach(temp => {
-            if('tags' in temp.data) {
-                for(const tag of temp.data.tags) {
-                    tagSet.add(tag);
+        postsCollection.forEach(templateObjet => {
+            if('tags' in templateObjet.data) {
+                const tagsProperty = templateObjet.data.tags;
+                if(Array.isArray(tagsProperty)) {
+                    tagsProperty.forEach(tag => tagSet.add(tag));
+                } else if(typeof tagsProperty === 'string') {
+                    tagSet.add(tagsProperty);
                 }
             }
         });
+        let pagedTagCollection = [];
         [...tagSet].forEach(tag => {
-            writeFileSync(`./_src/${tag}.njk`, `
----
-layout: base-layout.njk
-pagination:
-    data: collections.${tag}
-    size: 4
-    alias: tag
-    addAllPagesToCollections: true
-eleventyComputed:
-    title: "{{ tag | lower | slug }}"
-permalink: "tags/{{ pagination.pageNumber }}/index.html"
----
-{% set posts = collections[tag] %}
-            
-{% for post in posts %}
-<h1>{{ post.data.title }}</h1>
-<a href="{{ post.url }}">${tag}</a>
-{% endfor %}`);
+            const tagCollection = collection.getFilteredByTag(tag);
+            const pagedCollection = lodashChunk(tagCollection, 4);
+            let pageNumber = 0;
+            pagedCollection.forEach(templateObjectsArray => {
+                pagedTagCollection.push({
+                    tagName: tag,
+                    pageNumber: pageNumber++,
+                    templateObjets: templateObjectsArray
+                });
+            });
         });
-        return [...tagSet];
+        return pagedTagCollection;
     });
     // Configuration
     return {
