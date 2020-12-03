@@ -1,0 +1,26 @@
+---
+layout: base-layout.njk
+pagination:
+  data: collections.pagedTag
+  size: 1
+  alias: tag
+  addAllPagesToCollections: true
+permalink: tags/{{ tag.tagName }}/{{ (tag.pageNumber + 1) + "/" if tag.pageNumber }}
+eleventyComputed:
+  title: "{{ tag.tagName }}-page-{{ tag.pageNumber }}"
+---
+<header>
+    <h1>Posted on {{ tag.tagName }}</h1>
+    <p>All of the articles listed bellow share a related subject on {{ tag.tagName }}.</p>
+</header>
+<main>
+    <section class="post-listing">
+    {% for post in tag.templateObjets %}
+        <div class="listing-card">
+            <h2>{{ post.data.title }} on {{ tag.tagName }}</h2>
+            <a href="{{ post.url }}">Read more!</a>
+        </div>
+    {% endfor %}
+    </section>
+    <nav>Navigation (coming soon)</nav>
+</main>

@@ -1,17 +1,36 @@
 ---
 layout: base-layout.njk
 pagination:
-    data: collections.allTags
-    size: 4
-    alias: tag
-    addAllPagesToCollections: true
+  data: collections.posts
+  size: 4
+  alias: posts
+  addAllPagesToCollections: true
+permalink: "/{{ (pagination.pageNumber + 1) + '/' if pagination.pageNumber }}"
 eleventyComputed:
-    title: "Page {{ pagination.pageNumber }}"
-permalink: "/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber }}/{% endif %}index.html"
+  title: Home{{ ' page ' + (pagination.pageNumber + 1) if pagination.pageNumber }}
 ---
-{% set posts = collections[tag] %}
-            
-{% for post in posts %}
-    <h1>{{ post.data.title }}</h1>
-    <a href="{{ post.url }}">{{ tag }}</a>
-{% endfor %}
+<header>
+    <h1>Eleventy deep pagination</h1>
+    <p>
+    Following a discussion I had with Tobias on the <a href="https://www.11ty.dev/news/discord/">11ty Discord</a> about multi-level pagination. 
+    I started to search on the topic and found this little <a href="https://github.com/11ty/eleventy/issues/332">gem</a>. 
+    Then I wanted to experiment with it and created this little prototype. 
+    The source code can be found on <a href="https://github.com/solution-loisir/eleventy-deep-pagination">GitHub</a>!
+    </p>
+</header>       
+<main>
+    <section class="post-listing">
+    {% for post in posts %}
+    <div class="listing-card">
+        <h2>{{ post.data.title }}</h2>
+        <a href="{{ post.url }}">Read more!</a>
+        <div class="tag-container">
+            {% for tag in post.data.tags %}
+            <a href="/tags/{{ tag }}/">{{ tag }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    </section>
+    <nav>Navigation (coming soon)</nav>
+</main>

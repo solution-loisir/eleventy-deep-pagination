@@ -6,4 +6,4 @@ tags:
   - Rust
   - PHP
 ---
-# {{ title }}
+{% include 'partials/post-content.md' %}

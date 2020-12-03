@@ -14,6 +14,7 @@ module.exports = function(config) {
     assets.forEach(asset => config.addPassthroughCopy(asset));
     */
     // Collections
+    config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
     config.addCollection('pagedTag', collection => {
         const postsCollection = collection.getFilteredByGlob('_src/posts/*.md');
         let tagSet = new Set();
