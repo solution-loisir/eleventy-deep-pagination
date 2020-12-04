@@ -19,18 +19,29 @@ eleventyComputed:
     </p>
 </header>       
 <main>
-    <section class="post-listing">
+  <section class="post-listing">
     {% for post in posts %}
     <div class="listing-card">
-        <h2>{{ post.data.title }}</h2>
-        <a href="{{ post.url }}">Read more!</a>
-        <div class="tag-container">
-            {% for tag in post.data.tags %}
-            <a href="/tags/{{ tag }}/">{{ tag }}</a>
-            {% endfor %}
-        </div>
+      <h2>{{ post.data.title }}</h2>
+      <a href="{{ post.url }}">Read more!</a>
+      <div class="tag-container">
+        {% for tag in post.data.tags %}
+        <a href="/tags/{{ tag }}/">{{ tag }}</a>
+        {% endfor %}
+      </div>
     </div>
     {% endfor %}
-    </section>
-    <nav>Navigation (coming soon)</nav>
+  </section>
+  <nav aria-labelledby="page-navigation">
+    <p id="page-navigation"><big><b>Page navigation</b></big></p>
+    <ul>
+      <li>{% if page.url != pagination.href.first %}<a href="{{ pagination.href.first }}">First</a>{% else %}First{% endif %}</li>
+      <li>{% if pagination.href.previous %}<a href="{{ pagination.href.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
+      {%- for pageEntry in pagination.pages %}
+      <li><a href="{{ pagination.hrefs[ loop.index0 ] }}"{% if page.url == pagination.hrefs[ loop.index0 ] %} aria-current="page"{% endif %}>Page {{ loop.index }}</a></li>
+      {%- endfor %}
+      <li>{% if pagination.href.next %}<a href="{{ pagination.href.next }}">Next</a>{% else %}Next{% endif %}</li>
+      <li>{% if page.url != pagination.href.last %}<a href="{{ pagination.href.last }}">Last</a>{% else %}Last{% endif %}</li>
+    </ul>
+  </nav>
 </main>
