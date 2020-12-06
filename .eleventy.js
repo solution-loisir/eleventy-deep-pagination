@@ -80,11 +80,19 @@ module.exports = function(config) {
             navigationObject[key].forEach((objectItem, index, source) => {
                 if(!index) objectItem.position = 'first';
                 if(index === source.length - 1) objectItem.position = 'last';
-                //objectItem.previous = navigationObject[key][index-1].path ? navigationObject[key][index - 1].path : null;
-                //objectItem.next = navigationObject[key][index + 1].path ? navigationObject[key][index + 1].path : null;
+                if(source[index - 1]) {
+                    objectItem.previous = source[index - 1].path;
+                } else {
+                    objectItem.previous = false;
+                }
+                if(source[index + 1]) {
+                    objectItem.next = source[index + 1].path;
+                } else {
+                    objectItem.next = false;
+                }
             });
         });
-        //console.log(navigationObject);
+        console.log(navigationObject);
         return navigationObject;
     });
     // Configuration

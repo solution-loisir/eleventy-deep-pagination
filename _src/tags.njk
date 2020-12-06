@@ -27,13 +27,23 @@ eleventyComputed:
     <p id="page-navigation"><big><b>Tagged page navigation</b></big></p>
     <ul>
       {% for item in collections.pagedTagNavigation[tag.tagName] %}
-      {% if item.position === 'first' %}
-      <li>{% if page.url !== item.path %}<a href="{{ item.path }}">First</a>{% else %}First{% endif %}</li>
-      {% endif %}
-      <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ loop.index }}</a></li>
-      {% if item.position === 'last' %}
-      <li>{% if page.url !== item.path %}<a href="{{ item.path }}">Last</a>{% else %}Last{% endif %}</li>
-      {% endif %}
+        {% if item.position === 'first' %}
+          <li>{% if page.url !== item.path %}<a href="{{ item.path }}">First</a>{% else %}First{% endif %}</li>
+        {% endif %}
+        {% if item.previous %}
+          <li>{% if page.url !== item.previous %}<a href="{{ item.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
+        {% endif %}
+      {% endfor %}
+      {% for item in collections.pagedTagNavigation[tag.tagName] %}
+        <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ loop.index }}</a></li>
+      {% endfor %}
+      {% for item in collections.pagedTagNavigation[tag.tagName] %}
+        {% if item.next %}
+          <li>{% if page.url !== item.next %}<a href="{{ item.next }}">Next</a>{% else %}Next{% endif %}</li>
+        {% endif %}
+        {% if item.position === 'last' %}
+          <li>{% if page.url !== item.path %}<a href="{{ item.path }}">Last</a>{% else %}Last{% endif %}</li>
+        {% endif %}
       {% endfor %}
     </ul>
   </nav>
