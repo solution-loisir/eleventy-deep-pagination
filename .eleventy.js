@@ -1,6 +1,7 @@
 const lodashChunk = require('lodash.chunk');
 
 module.exports = function(config) {
+    config.addPassthroughCopy('LICENSE');
     // Collections
     config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
     config.addCollection('pagedTag', collection => {
