@@ -17,18 +17,30 @@ module.exports = function(config) {
             }
         });
         const pagedTag = [];
+        let pagedTagGroupSize;
         [...tagSet].forEach(tag => {
             const tagCollection = collection.getFilteredByTag(tag);
             const pagedCollection = lodashChunk(tagCollection, 4);
             pagedCollection.forEach((templateObjectsArray, index) => {
+                pagedTagGroupSize = index;
                 pagedTag.push({
                     tagName: tag,
-                    path: `tags/${tag}/${index ? (index + 1) + '/' : ''}`,
+                    path: `/tags/${tag}/${index ? (index + 1) + '/' : ''}`,
                     pageNumber: index,
                     templateObjets: templateObjectsArray
                 });
             });
         });
+        const pageGroup = lodashChunk(pagedTag, ++pagedTagGroupSize);
+        pageGroup.forEach(pageGroup => {
+            pageGroup.forEach((pageObject, index, source) => {
+                pageObject.first = source[0].path;
+                pageObject.last = source[source.length - 1].path;
+                if(source[index - 1]) pageObject.previous = source[index - 1].path;
+                if(source[index + 1]) pageObject.next = source[index + 1].path;
+            });
+        });
+        //console.log(pagedTagGroupSize, pageGroup);
         return pagedTag;
     });
     config.addCollection('pagedTagNavigation', collection => {
@@ -45,10 +57,12 @@ module.exports = function(config) {
             }
         });
         const pagedTag = [];
+        let pagedTagGroupSize;
         [...tagSet].forEach(tag => {
             const tagCollection = collection.getFilteredByTag(tag);
             const pagedCollection = lodashChunk(tagCollection, 4);
             pagedCollection.forEach((templateObjectsArray, index) => {
+                pagedTagGroupSize = index;
                 pagedTag.push({
                     tagName: tag,
                     path: `/tags/${tag}/${index ? (index + 1) + '/' : ''}`,
@@ -57,29 +71,21 @@ module.exports = function(config) {
                 });
             });
         });
-        const navigationObject = pagedTag.reduce((accumulatorObject, currentItem) => {
+        const pageGroup = lodashChunk(pagedTag, ++pagedTagGroupSize);
+        pageGroup.forEach(pageGroup => {
+            pageGroup.forEach((pageObject, index, source) => {
+                pageObject.first = source[0].path;
+                pageObject.last = source[source.length - 1].path;
+                if(source[index - 1]) pageObject.previous = source[index - 1].path;
+                if(source[index + 1]) pageObject.next = source[index + 1].path;
+            });
+        });
+        return pagedTag.reduce((accumulatorObject, currentItem) => {
             const tagNameProp = currentItem.tagName;
             if(!accumulatorObject[tagNameProp]) accumulatorObject[tagNameProp] = [];
             accumulatorObject[tagNameProp].push(currentItem);
             return accumulatorObject;
         }, {});
-        Object.keys(navigationObject).forEach(key => {
-            navigationObject[key].forEach((objectItem, index, source) => {
-                if(!index) objectItem.position = 'first';
-                if(index === source.length - 1) objectItem.position = 'last';
-                if(source[index - 1]) {
-                    objectItem.previous = source[index - 1].path;
-                } else {
-                    objectItem.previous = false;
-                }
-                if(source[index + 1]) {
-                    objectItem.next = source[index + 1].path;
-                } else {
-                    objectItem.next = false;
-                }
-            });
-        });
-        return navigationObject;
     });
     // Configuration
     return {

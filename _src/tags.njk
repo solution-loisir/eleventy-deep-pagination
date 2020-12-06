@@ -26,25 +26,13 @@ eleventyComputed:
   <nav aria-labelledby="page-navigation">
     <p id="page-navigation"><big><b>Tagged page navigation</b></big></p>
     <ul>
+      <li>{% if page.url !== tag.first %}<a href="{{ tag.first }}">First</a>{% else %}First{% endif %}</li>
+      <li>{% if tag.previous %}<a href="{{ tag.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
       {% for item in collections.pagedTagNavigation[tag.tagName] %}
-        {% if item.position === 'first' %}
-          <li>{% if page.url !== item.path %}<a href="{{ item.path }}">First</a>{% else %}First{% endif %}</li>
-        {% endif %}
-        {% if item.previous %}
-          <li>{% if page.url !== item.previous %}<a href="{{ item.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
-        {% endif %}
+        <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ item.pageNumber + 1 }}</a></li>
       {% endfor %}
-      {% for item in collections.pagedTagNavigation[tag.tagName] %}
-        <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ loop.index }}</a></li>
-      {% endfor %}
-      {% for item in collections.pagedTagNavigation[tag.tagName] %}
-        {% if item.next %}
-          <li>{% if page.url !== item.next %}<a href="{{ item.next }}">Next</a>{% else %}Next{% endif %}</li>
-        {% endif %}
-        {% if item.position === 'last' %}
-          <li>{% if page.url !== item.path %}<a href="{{ item.path }}">Last</a>{% else %}Last{% endif %}</li>
-        {% endif %}
-      {% endfor %}
+      <li>{% if tag.next %}<a href="{{ tag.next }}">Next</a>{% else %}Next{% endif %}</li>
+      <li>{% if page.url !== tag.last %}<a href="{{ tag.last }}">Last</a>{% else %}Last{% endif %}</li>
     </ul>
   </nav>
   <a href="/">Back to Home page</a>
