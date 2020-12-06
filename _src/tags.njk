@@ -1,7 +1,7 @@
 ---
 layout: base-layout.njk
 pagination:
-  data: collections.pagedTag
+  data: collections.pagedTags
   size: 1
   alias: tag
   addAllPagesToCollections: true
@@ -10,10 +10,7 @@ eleventyComputed:
   title: "{{ tag.tagName }}-page-{{ tag.pageNumber }}"
   tagName: "{{ tag.tagName }}"
 ---
-<header>
-  <h1>Posted on {{ tag.tagName }}</h1>
-  <p>All of the articles listed bellow share a related subject on {{ tag.tagName }}.</p>
-</header>
+{% include 'partials/tags-header.njk' %}
 <main>
   <section class="post-listing">
     {% for post in tag.templateObjets %}
@@ -28,7 +25,7 @@ eleventyComputed:
     <ul>
       <li>{% if page.url !== tag.first %}<a href="{{ tag.first }}">First</a>{% else %}First{% endif %}</li>
       <li>{% if tag.previous %}<a href="{{ tag.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
-      {% for item in collections.pagedTagNavigation[tag.tagName] %}
+      {% for item in collections.pagedTagsListing[tag.tagName] %}
         <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ item.pageNumber + 1 }}</a></li>
       {% endfor %}
       <li>{% if tag.next %}<a href="{{ tag.next }}">Next</a>{% else %}Next{% endif %}</li>
