@@ -1,18 +1,6 @@
 const lodashChunk = require('lodash.chunk');
 
 module.exports = function(config) {
-    // Sass pre-processing
-    /*
-    sassProcess('./style/index.scss', './_site/style/index.css');
-    config.setBrowserSyncConfig({
-        files: './_site/style/index.css'
-    });
-    */
-    // Passthrough copy
-    /*
-    const assets = []
-    assets.forEach(asset => config.addPassthroughCopy(asset));
-    */
     // Collections
     config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
     config.addCollection('pagedTag', collection => {
@@ -41,7 +29,6 @@ module.exports = function(config) {
                 });
             });
         });
-        //console.log(pagedTag);
         return pagedTag;
     });
     config.addCollection('pagedTagNavigation', collection => {
@@ -92,7 +79,6 @@ module.exports = function(config) {
                 }
             });
         });
-        console.log(navigationObject);
         return navigationObject;
     });
     // Configuration

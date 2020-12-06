@@ -12,9 +12,11 @@ eleventyComputed:
 <header>
     <h1>Eleventy deep pagination</h1>
     <p>
-    Following a discussion I had with Tobias on the <a href="https://www.11ty.dev/news/discord/">11ty Discord</a> about multi-level pagination. 
-    I started to search on the topic and found this little <a href="https://github.com/11ty/eleventy/issues/332">gem</a>. 
-    Then I wanted to experiment with it and created this little prototype. 
+    This is a demo of double layered pagination with navigation scoped to tagged content using <a href="https://www.11ty.dev/">11ty</a> static site generator. Following a discussion I had with Tobias on the <a href="https://www.11ty.dev/news/discord/">11ty Discord</a> about multi-level pagination. 
+    I started to search on the topic and found <a href="https://github.com/11ty/eleventy/issues/332">issue #332</a>. 
+    Then I wanted to experiment with it and created this little prototype. While tinkering, I faced the same situation as 
+    <a href="https://github.com/11ty/eleventy/issues/1120">issue #1120</a>. My solution was to create a navigation object from the 
+    from the first collection using the collection API.
     The source code can be found on <a href="https://github.com/solution-loisir/eleventy-deep-pagination">GitHub</a>!
     </p>
 </header>       
