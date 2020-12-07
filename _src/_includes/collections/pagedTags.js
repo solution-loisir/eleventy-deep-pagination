@@ -29,8 +29,8 @@ module.exports = collection => {
         });
     });
     const pageGroup = lodashChunk(pagedTags, ++pagedCollectionLength);
-    pageGroup.forEach(pageGroup => {
-        pageGroup.forEach((pageObject, index, source) => {
+    pageGroup.forEach(group => {
+        group.forEach((pageObject, index, source) => {
             pageObject.first = source[0].path;
             pageObject.last = source[source.length - 1].path;
             if(source[index - 1]) pageObject.previous = source[index - 1].path;

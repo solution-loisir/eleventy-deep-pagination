@@ -12,9 +12,11 @@ eleventyComputed:
 {% include 'partials/index-header.html' %}      
 <main>
   <section class="post-listing">
+    <h2>Click on a tag to get a paged list of articles</h2>
+    <hr>
     {% for post in posts %}
     <div class="listing-card">
-      <h2>{{ post.data.title }}</h2>
+      <h3>{{ post.data.title }}</h3>
       <a href="{{ post.url }}">Read more!</a>
       <div class="tag-container">
         {% for tag in post.data.tags %}

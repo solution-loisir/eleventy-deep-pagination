@@ -8,14 +8,15 @@ pagination:
 permalink: tags/{{ tag.tagName }}/{{ (tag.pageNumber + 1) + "/" if tag.pageNumber }}
 eleventyComputed:
   title: "{{ tag.tagName }}-page-{{ tag.pageNumber }}"
-  tagName: "{{ tag.tagName }}"
 ---
 {% include 'partials/tags-header.njk' %}
 <main>
   <section class="post-listing">
+    <h2>Click on a tag to get a paged list of articles</h2>
+    <hr>
     {% for post in tag.templateObjets %}
     <div class="listing-card">
-      <h2>{{ post.data.title }} on {{ tag.tagName }}</h2>
+      <h3>{{ post.data.title }} on {{ tag.tagName }}</h3>
       <a href="{{ post.url }}">Read more!</a>
     </div>
     {% endfor %}
