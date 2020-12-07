@@ -10,13 +10,12 @@ eleventyComputed:
   title: "{{ tag.tagName }}-page-{{ tag.pageNumber }}"
 ---
 {% include 'partials/tags-header.njk' %}
+<hr>
 <main>
   <section class="post-listing">
-    <h2>Click on a tag to get a paged list of articles</h2>
-    <hr>
     {% for post in tag.templateObjets %}
     <div class="listing-card">
-      <h3>{{ post.data.title }} on {{ tag.tagName }}</h3>
+      <h2>{{ post.data.title }} on {{ tag.tagName }}</h2>
       <a href="{{ post.url }}">Read more!</a>
     </div>
     {% endfor %}
