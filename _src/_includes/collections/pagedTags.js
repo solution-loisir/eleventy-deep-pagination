@@ -14,12 +14,12 @@ module.exports = collection => {
         }
     });
     const pagedTags = [];
-    let pagedCollectionLength;
+    let pagedCollectionMaxIndex;
     [...tagSet].forEach(tag => {
         const tagCollection = collection.getFilteredByTag(tag);
         const pagedCollection = lodashChunk(tagCollection, 4);
         pagedCollection.forEach((templateObjectsArray, index) => {
-            pagedCollectionLength = index;
+            pagedCollectionMaxIndex = index;
             pagedTags.push({
                 tagName: tag,
                 path: `/tags/${tag}/${index ? (index + 1) + '/' : ''}`,
@@ -28,8 +28,9 @@ module.exports = collection => {
             });
         });
     });
-    const pageGroup = lodashChunk(pagedTags, ++pagedCollectionLength);
-    pageGroup.forEach(group => {
+    const pagedCollectionLength = ++pagedCollectionMaxIndex;
+    const groupedByTagName = lodashChunk(pagedTags, pagedCollectionLength);
+    groupedByTagName.forEach(group => {
         group.forEach((pageObject, index, source) => {
             pageObject.first = source[0].path;
             pageObject.last = source[source.length - 1].path;
