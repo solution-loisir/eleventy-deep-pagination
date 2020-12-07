@@ -4,7 +4,6 @@ pagination:
   data: collections.pagedTags
   size: 1
   alias: tag
-  addAllPagesToCollections: true
 permalink: tags/{{ tag.tagName }}/{{ (tag.pageNumber + 1) + "/" if tag.pageNumber }}
 eleventyComputed:
   title: "{{ tag.tagName }}-page-{{ tag.pageNumber }}"

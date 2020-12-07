@@ -4,7 +4,6 @@ pagination:
   data: collections.posts
   size: 4
   alias: posts
-  addAllPagesToCollections: true
 permalink: "/{{ (pagination.pageNumber + 1) + '/' if pagination.pageNumber }}"
 eleventyComputed:
   title: Home{{ ' page ' + (pagination.pageNumber + 1) if pagination.pageNumber }}
