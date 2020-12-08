@@ -10,7 +10,7 @@ module.exports = function(config) {
     });
     config.addCollection('pagedTagsListing', collection => {
         const pagedTagsCollection = pagedTags(collection);
-        return pagedTagsCollection.groupedByTagName();
+        return pagedTagsCollection.listedByTagName();
     });
     // Configuration
     return {

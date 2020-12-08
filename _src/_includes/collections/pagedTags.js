@@ -40,7 +40,7 @@ module.exports = collection => {
     });
     return {
         pages: pagedTags,
-        groupedByTagName() {
+        listedByTagName() {
             return this.pages.reduce((accumulatorObject, currentItem) => {
                 const tagNameProp = currentItem.tagName;
                 if(!accumulatorObject[tagNameProp]) accumulatorObject[tagNameProp] = [];
