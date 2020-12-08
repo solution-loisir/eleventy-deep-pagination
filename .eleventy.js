@@ -5,12 +5,12 @@ module.exports = function(config) {
     // Collections
     config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
     config.addCollection('pagedTags', collection => {
-        const tagsCollection = pagedTags(collection);
-        return tagsCollection.pages;
+        const pagedTagsCollection = pagedTags(collection);
+        return pagedTagsCollection.pages;
     });
     config.addCollection('pagedTagsListing', collection => {
-        const tagsCollection = pagedTags(collection);
-        return tagsCollection.listing();
+        const pagedTagsCollection = pagedTags(collection);
+        return pagedTagsCollection.groupedByTagName();
     });
     // Configuration
     return {
