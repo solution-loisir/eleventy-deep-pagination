@@ -38,5 +38,15 @@ module.exports = collection => {
             if(source[index + 1]) pageObject.next = source[index + 1].path;
         });
     });
-    return pagedTags;
+    return {
+        pages: pagedTags,
+        listing() {
+            return this.pages.reduce((accumulatorObject, currentItem) => {
+                const tagNameProp = currentItem.tagName;
+                if(!accumulatorObject[tagNameProp]) accumulatorObject[tagNameProp] = [];
+                accumulatorObject[tagNameProp].push(currentItem);
+                return accumulatorObject;
+            }, {});
+        }
+    }
 }

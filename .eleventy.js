@@ -1,19 +1,16 @@
-const pagedTagsCollection = require('./_src/_includes/collections/pagedTags');
+const pagedTags = require('./_src/_includes/collections/pagedTags');
 
 module.exports = function(config) {
     config.addPassthroughCopy('LICENSE');
     // Collections
     config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
     config.addCollection('pagedTags', collection => {
-        return pagedTagsCollection(collection);
+        const tagsCollection = pagedTags(collection);
+        return tagsCollection.pages;
     });
     config.addCollection('pagedTagsListing', collection => {
-        return pagedTagsCollection(collection).reduce((accumulatorObject, currentItem) => {
-            const tagNameProp = currentItem.tagName;
-            if(!accumulatorObject[tagNameProp]) accumulatorObject[tagNameProp] = [];
-            accumulatorObject[tagNameProp].push(currentItem);
-            return accumulatorObject;
-        }, {});
+        const tagsCollection = pagedTags(collection);
+        return tagsCollection.listing();
     });
     // Configuration
     return {
