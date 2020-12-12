@@ -24,8 +24,10 @@ eleventyComputed:
     <ul>
       <li>{% if page.url !== tag.first %}<a href="{{ tag.first }}">First</a>{% else %}First{% endif %}</li>
       <li>{% if tag.previous %}<a href="{{ tag.previous }}">Previous</a>{% else %}Previous{% endif %}</li>
-      {% for item in collections.pagedTagsListing[tag.tagName] %}
-        <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ item.pageNumber + 1 }}</a></li>
+      {% for item in collections.pagedTags %}
+        {% if tag.tagName === item.tagName %}
+          <li><a href="{{ item.path }}"{% if page.url == item.path %} aria-current="page"{% endif %}>Page {{ item.pageNumber + 1 }}</a></li>
+        {% endif %}
       {% endfor %}
       <li>{% if tag.next %}<a href="{{ tag.next }}">Next</a>{% else %}Next{% endif %}</li>
       <li>{% if page.url !== tag.last %}<a href="{{ tag.last }}">Last</a>{% else %}Last{% endif %}</li>
