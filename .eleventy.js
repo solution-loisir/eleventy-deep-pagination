@@ -4,9 +4,7 @@ module.exports = function(config) {
     config.addPassthroughCopy('LICENSE');
     // Collections
     config.addCollection('posts', collection => collection.getFilteredByGlob('_src/posts/*.md'));
-    config.addCollection('pagedTags', collection => {
-        return pagedTags(collection);
-    });
+    config.addCollection('pagedTags', collection => pagedTags(collection));
     // Configuration
     return {
         dir: {
