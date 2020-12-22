@@ -1,3 +1,9 @@
 {
-    "layout": "base-layout.njk"
+    "layout": "base-layout.njk",
+    "tags": [
+        "JavaScript",
+        "GO",
+        "Rust",
+        "PHP"
+    ]
 }
