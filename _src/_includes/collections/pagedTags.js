@@ -1,6 +1,6 @@
 const lodashChunk = require('lodash.chunk');
 
-module.exports = collection => {
+module.exports = (collection, size = 4) => {
     const postsCollection = collection.getFilteredByGlob('_src/posts/*.md');
     let tagSet = new Set();
     postsCollection.forEach(templateObjet => {
@@ -17,7 +17,7 @@ module.exports = collection => {
     let pagedCollectionMaxIndex;
     [...tagSet].forEach(tag => {
         const tagCollection = collection.getFilteredByTag(tag);
-        const pagedCollection = lodashChunk(tagCollection, 4);
+        const pagedCollection = lodashChunk(tagCollection, size);
         pagedCollection.forEach((templateObjectsArray, index) => {
             pagedCollectionMaxIndex = index;
             pagedTags.push({
