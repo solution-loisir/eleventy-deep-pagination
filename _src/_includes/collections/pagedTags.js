@@ -1,9 +1,8 @@
 const lodashChunk = require('lodash.chunk');
 
-module.exports = (collection, size = 4) => {
-    const postsCollection = collection.getFilteredByGlob('_src/posts/*.md');
+module.exports = function(collection, { collectionAPI, size = 4 }) {
     let tagSet = new Set();
-    postsCollection.forEach(templateObjet => {
+    collectionAPI.forEach(templateObjet => {
         if('tags' in templateObjet.data) {
             const tagsProperty = templateObjet.data.tags;
             if(Array.isArray(tagsProperty)) {
