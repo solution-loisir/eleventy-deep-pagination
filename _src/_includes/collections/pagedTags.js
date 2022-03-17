@@ -2,6 +2,7 @@ const lodashChunk = require('lodash.chunk');
 
 module.exports = function(collection, { collectionAPI, size = 4 }) {
     let tagSet = new Set();
+
     collectionAPI.forEach(templateObjet => {
         if('tags' in templateObjet.data) {
             const tagsProperty = templateObjet.data.tags;
@@ -12,13 +13,13 @@ module.exports = function(collection, { collectionAPI, size = 4 }) {
             }
         }
     });
+
     const pagedTags = [];
-    let pagedCollectionMaxIndex;
+
     [...tagSet].forEach(tag => {
         const tagCollection = collection.getFilteredByTag(tag);
         const pagedCollection = lodashChunk(tagCollection, size);
         pagedCollection.forEach((templateObjectsArray, index) => {
-            pagedCollectionMaxIndex = index;
             pagedTags.push({
                 tagName: tag,
                 path: `/tags/${tag}/${index ? (index + 1) + '/' : ''}`,
@@ -27,8 +28,8 @@ module.exports = function(collection, { collectionAPI, size = 4 }) {
             });
         });
     });
-    const pagedCollectionLength = ++pagedCollectionMaxIndex;
-    const groupedByTagName = lodashChunk(pagedTags, pagedCollectionLength);
+    
+    const groupedByTagName = lodashChunk(pagedTags, size);
     groupedByTagName.forEach(group => {
         group.forEach((pageObject, index, source) => {
             pageObject.first = source[0].path;
@@ -37,5 +38,6 @@ module.exports = function(collection, { collectionAPI, size = 4 }) {
             if(source[index + 1]) pageObject.next = source[index + 1].path;
         });
     });
+
     return pagedTags;
 }
